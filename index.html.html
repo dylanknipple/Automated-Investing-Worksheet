@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Worksheet: How Automated Investing Works</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            body {
+                background-color: #ffffff;
+                color: #000000;
+            }
+            .shadow-lg, .shadow-md, .shadow-sm, .shadow-xl {
+                box-shadow: none !important;
+            }
+            .border-2, .border {
+                border-color: #cbd5e1 !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen pb-16">
+
+    <header class="bg-indigo-700 text-white shadow-md no-print sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-lg bg-indigo-600 flex items-center justify-center text-emerald-300 font-black text-xl shadow-inner">
+                    <i class="fa-solid fa-chart-line"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide leading-none">FinEd Interactive Lab</h1>
+                    <span class="text-[11px] text-indigo-200">Automated Dollar-Cost Averaging Module</span>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 text-xs sm:text-sm">
+                <button type="button" id="btnReset" class="bg-indigo-800 hover:bg-indigo-900 text-indigo-100 px-3.5 py-2 rounded-lg transition border border-indigo-600 flex items-center gap-1.5 font-medium">
+                    <i class="fa-solid fa-rotate-left"></i> Reset Form
+                </button>
+                <button type="button" onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-semibold transition flex items-center gap-1.5 shadow">
+                    <i class="fa-solid fa-print"></i> Print / Save PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 mt-6 space-y-6">
+
+        <!-- Top Notification Banner -->
+        <div id="topBanner" class="hidden p-4 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-900 flex items-center justify-between no-print transition-all">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-circle-check text-2xl text-emerald-600"></i>
+                <div>
+                    <span class="font-bold text-sm block">Worksheet Successfully Graded!</span>
+                    <span class="text-xs">A comprehensive score and feedback report has been generated at the bottom of the page.</span>
+                </div>
+            </div>
+            <button onclick="document.getElementById('resultsReportCard').scrollIntoView({behavior:'smooth'})" class="px-3.5 py-1.5 bg-emerald-700 text-white rounded-lg text-xs font-bold hover:bg-emerald-800 transition shadow">
+                Jump to Report <i class="fa-solid fa-arrow-down ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Student Info Header -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="border-b border-slate-200 pb-5 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-indigo-100 text-indigo-800 text-xs font-bold rounded-full uppercase tracking-wider mb-2">Autograded Financial Literacy Worksheet</span>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">How Automated Investing Works</h2>
+                        <p class="text-slate-600 text-sm mt-1">Understanding Dollar-Cost Averaging (DCA) through S&P 500 Market Data</p>
+                    </div>
+
+                    <!-- Student Metadata Inputs -->
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 min-w-[280px]">
+                        <div class="space-y-3">
+                            <div>
+                                <label for="studentName" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">
+                                    Student Name <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" id="studentName" placeholder="Enter your full name" class="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                            </div>
+                            <div>
+                                <label for="studentDate" class="block text-xs font-bold text-slate-600 uppercase tracking-wider mb-1">Date</label>
+                                <input type="date" id="studentDate" class="w-full px-3 py-1.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept Banner -->
+            <div class="bg-indigo-50/80 border-l-4 border-indigo-600 p-4 rounded-r-xl">
+                <h3 class="font-bold text-indigo-950 flex items-center gap-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-lightbulb text-indigo-600"></i>
+                    The Strategy: Automated Dollar-Cost Averaging (DCA)
+                </h3>
+                <p class="text-xs sm:text-sm text-indigo-900 mt-1 leading-relaxed">
+                    <strong>Dollar-Cost Averaging (DCA)</strong> means setting up an automatic recurring payment to invest a fixed dollar amount (e.g., <strong>$200 on the 1st of every month</strong>) into the stock market—regardless of whether the market is going up or down.
+                </p>
+            </div>
+        </div>
+
+        <section class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-4">
+                <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">I</span>
+                <h3 class="text-xl font-bold text-slate-900">Part I: Look at the Data</h3>
+            </div>
+            <p class="text-slate-600 text-sm mb-5">Review the 4-month automated investment history below, where $200 was invested on the 1st of each month into an S&P 500 index fund.</p>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-200 mb-6">
+                <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                    <thead>
+                        <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-bold">
+                            <th class="p-3">Month</th>
+                            <th class="p-3">Share Price</th>
+                            <th class="p-3">Monthly Contribution</th>
+                            <th class="p-3 bg-amber-100/60 text-amber-900">Shares Bought</th>
+                            <th class="p-3">Total Shares Owned</th>
+                            <th class="p-3">Total Money Invested</th>
+                            <th class="p-3">Total Portfolio Value</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 text-slate-800">
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-indigo-900">Jan</td>
+                            <td class="p-3 font-bold text-slate-900">$50</td>
+                            <td class="p-3">$200</td>
+                            <td class="p-3 font-semibold bg-amber-50 text-amber-900">4.00 shares</td>
+                            <td class="p-3">4.00 shares</td>
+                            <td class="p-3">$200</td>
+                            <td class="p-3">$200.00</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-indigo-900">Feb</td>
+                            <td class="p-3 font-bold text-slate-900">$41</td>
+                            <td class="p-3">$200</td>
+                            <td class="p-3 font-semibold bg-amber-50 text-amber-900">4.88 shares</td>
+                            <td class="p-3">8.88 shares</td>
+                            <td class="p-3">$400</td>
+                            <td class="p-3">$364.08</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-indigo-900">Mar</td>
+                            <td class="p-3 font-bold text-slate-900">$37</td>
+                            <td class="p-3">$200</td>
+                            <td class="p-3 font-semibold bg-amber-50 text-amber-900">5.41 shares</td>
+                            <td class="p-3">14.29 shares</td>
+                            <td class="p-3">$600</td>
+                            <td class="p-3">$528.73</td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition">
+                            <td class="p-3 font-bold text-indigo-900">Apr</td>
+                            <td class="p-3 font-bold text-slate-900">$65</td>
+                            <td class="p-3">$200</td>
+                            <td class="p-3 font-semibold bg-amber-50 text-amber-900">3.08 shares</td>
+                            <td class="p-3">17.37 shares</td>
+                            <td class="p-3">$800</td>
+                            <td class="p-3 font-extrabold text-emerald-700">$1,129.05</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Callout Cards -->
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                    <div class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">1. Average Stock Market Price</div>
+                    <div class="text-2xl font-black text-slate-900 mb-1">$48.25</div>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        This is the simple average price of the stock over the 4 months ($50 + $41 + $37 + $65 ÷ 4). It shows what the stock cost on average if you just looked at the price tag each month.
+                    </p>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-200">
+                    <div class="text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1">2. Your DCA Average Cost Paid</div>
+                    <div class="text-2xl font-black text-emerald-900 mb-1">$46.06</div>
+                    <p class="text-xs text-emerald-800 leading-relaxed">
+                        This is the <strong>actual price you paid per share</strong> using automated investing ($800 total spent ÷ 17.37 total shares owned).
+                    </p>
+                </div>
+            </div>
+
+            <div class="p-4 bg-amber-50 rounded-xl border border-amber-200 text-amber-950 text-xs sm:text-sm leading-relaxed flex items-start gap-3">
+                <i class="fa-solid fa-lightbulb text-amber-600 mt-0.5 text-base sm:text-lg shrink-0"></i>
+                <div>
+                    <strong>Notice the difference!</strong> Your DCA average cost ($46.06) is <strong>lower</strong> than the market's average price ($48.25). 
+                    <em>Why?</em> Because your $200 automatically bought <strong>more shares</strong> when the stock was cheap (in Feb and Mar) and <strong>fewer shares</strong> when it was expensive (in Apr).
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">II</span>
+                <h3 class="text-xl font-bold text-slate-900">Part II: Analyze the Strategy</h3>
+            </div>
+
+            <div class="space-y-8">
+                <!-- Q1 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                        <span>1.</span> Prices Down = Shares on Sale
+                        <span class="text-xs font-normal text-slate-500">(Compare January $50 vs March $37)</span>
+                    </h4>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="q1_jan" class="block text-xs font-semibold text-slate-700 mb-1">How many shares did your $200 buy in January?</label>
+                            <input type="number" step="0.01" id="q1_jan" placeholder="Enter number" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-sm">
+                        </div>
+
+                        <div>
+                            <label for="q1_mar" class="block text-xs font-semibold text-slate-700 mb-1">How many shares did your $200 buy in March when the price dropped?</label>
+                            <input type="number" step="0.01" id="q1_mar" placeholder="Enter number" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-sm">
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-200">
+                        <label for="q1_dropdown" class="block text-xs font-bold text-slate-800 mb-1.5 uppercase tracking-wide">Conclusion:</label>
+                        <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-800">
+                            <span>When stock prices drop, a fixed $200 investment automatically buys</span>
+                            <select id="q1_dropdown" class="px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-sm">
+                                <option value="">-- Select --</option>
+                                <option value="MORE">MORE</option>
+                                <option value="FEWER">FEWER</option>
+                            </select>
+                            <span>shares.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base flex items-center gap-2">
+                        <span>2.</span> Prices Up = Buying Less
+                        <span class="text-xs font-normal text-slate-500">(Compare March $37 vs April $65)</span>
+                    </h4>
+
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div>
+                            <label for="q2_apr" class="block text-xs font-semibold text-slate-700 mb-1">How many shares did your $200 buy in April when the price surged?</label>
+                            <input type="number" step="0.01" id="q2_apr" placeholder="Enter number" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-sm">
+                        </div>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-200">
+                        <label for="q2_dropdown" class="block text-xs font-bold text-slate-800 mb-1.5 uppercase tracking-wide">Conclusion:</label>
+                        <div class="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-slate-800">
+                            <span>When stock prices go up, a fixed $200 investment automatically buys</span>
+                            <select id="q2_dropdown" class="px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-sm">
+                                <option value="">-- Select --</option>
+                                <option value="MORE">MORE</option>
+                                <option value="FEWER">FEWER</option>
+                            </select>
+                            <span>shares.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-3">
+                    <h4 class="font-bold text-slate-900 text-sm sm:text-base">
+                        3. Beat the Average:
+                    </h4>
+                    <label for="q3_text" class="block text-xs sm:text-sm text-slate-700 leading-relaxed">
+                        Why was your <strong>DCA Average Cost ($46.06)</strong> <em>lower</em> than the <strong>Average Market Price ($48.25)</strong>?
+                    </label>
+                    <textarea id="q3_text" rows="3" placeholder="Type your explanation here..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-xs sm:text-sm"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">III</span>
+                <h3 class="text-xl font-bold text-slate-900">Part III: Automated DCA vs. Other Strategies</h3>
+            </div>
+
+            <!-- Scenario A -->
+            <div class="mb-8 p-5 bg-slate-50/80 border border-slate-200 rounded-xl space-y-4">
+                <div class="border-b border-slate-200 pb-3">
+                    <h4 class="font-bold text-indigo-950 text-sm sm:text-base">Scenario A: Automated DCA vs. Single Lump Sum</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">Imagine you had <strong>$600 total in cash</strong> in January.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 text-xs">
+                    <div class="p-3.5 bg-white rounded-xl border border-slate-200">
+                        <span class="font-bold text-slate-900 block text-xs uppercase tracking-wide mb-1">Strategy 1 (Lump Sum):</span>
+                        <p class="text-slate-600">Spent all $600 at once in Jan at $50/share &rarr; Bought <strong>12.00 shares</strong>.</p>
+                        <p class="mt-2 font-semibold text-rose-700 bg-rose-50 p-2 rounded-lg border border-rose-100">Portfolio value in March ($37 price): $444.00 (Loss of $156.00)</p>
+                    </div>
+                    <div class="p-3.5 bg-white rounded-xl border border-slate-200">
+                        <span class="font-bold text-indigo-900 block text-xs uppercase tracking-wide mb-1">Strategy 2 (Automated DCA):</span>
+                        <p class="text-slate-600">Invested $200/mo in Jan, Feb, Mar &rarr; Accumulated <strong>14.29 shares</strong>.</p>
+                        <p class="mt-2 font-semibold text-emerald-800 bg-emerald-50 p-2 rounded-lg border border-emerald-100">Portfolio value in March ($37 price): $528.73 (Loss of $71.27)</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                    <label for="scenarioA_select" class="block text-xs font-bold text-slate-800 uppercase tracking-wide">
+                        Which strategy in Scenario A protected your money better during the market drop in March?
+                    </label>
+                    <select id="scenarioA_select" class="w-full sm:w-auto px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none text-xs sm:text-sm bg-white font-medium">
+                        <option value="">-- Select Strategy --</option>
+                        <option value="DCA">Automated Dollar-Cost Averaging (DCA)</option>
+                        <option value="LUMPSUM">Single Lump Sum Investment</option>
+                    </select>
+
+                    <label for="scenarioA_text" class="block text-xs sm:text-sm text-slate-700 pt-2">
+                        Why did this strategy protect your money better?
+                    </label>
+                    <textarea id="scenarioA_text" rows="2" placeholder="Type your explanation here..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-xs sm:text-sm"></textarea>
+                </div>
+            </div>
+
+            <!-- Scenario B -->
+            <div class="p-5 bg-slate-50/80 border border-slate-200 rounded-xl space-y-4">
+                <div class="border-b border-slate-200 pb-3">
+                    <h4 class="font-bold text-indigo-950 text-sm sm:text-base">Scenario B: Automated DCA vs. "Timing the Market"</h4>
+                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+                        Imagine you kept $600 in cash in January out of fear, waiting for the "perfect moment". By April, the market spiked to <strong>$65/share</strong>. Panicking, you invested all $600 in April, getting only <strong>9.23 shares</strong>. If you had used <strong>Automated DCA</strong>, you would already own <strong>17.37 shares</strong> worth <strong>$1,129.05</strong>.
+                    </p>
+                </div>
+
+                <div class="space-y-3">
+                    <label for="scenarioB_text" class="block text-xs sm:text-sm font-semibold text-slate-800">
+                        Analyze Scenario B: Why does trying to "time the market" often backfire for real investors?
+                    </label>
+                    <textarea id="scenarioB_text" rows="3" placeholder="Type your analysis here..." class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-xs sm:text-sm"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-8 rounded-full bg-indigo-600 text-white font-extrabold flex items-center justify-center text-sm shadow-sm">IV</span>
+                <h3 class="text-xl font-bold text-slate-900">Part IV: Big Picture Summary</h3>
+            </div>
+
+            <div class="space-y-5">
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <label for="summary1" class="block text-xs sm:text-sm text-slate-800 leading-relaxed">
+                        1. Setting up <strong>automated recurring transfers</strong> helps investors stay disciplined because it removes
+                        <select id="summary1" class="mx-1 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-xs sm:text-sm">
+                            <option value="">-- Select --</option>
+                            <option value="EMOTION">EMOTION</option>
+                            <option value="MATH">MATH</option>
+                        </select>
+                        from decision-making.
+                    </label>
+                </div>
+
+                <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <label class="block text-xs sm:text-sm text-slate-800 leading-relaxed">
+                        2. Dollar-Cost Averaging works best over the long term because you automatically buy
+                        <select id="summary2" class="mx-1 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-xs sm:text-sm">
+                            <option value="">-- Select --</option>
+                            <option value="MORE">MORE</option>
+                            <option value="FEWER">FEWER</option>
+                        </select>
+                        shares when the market is low and
+                        <select id="summary3" class="mx-1 px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-xs sm:text-sm">
+                            <option value="">-- Select --</option>
+                            <option value="MORE">MORE</option>
+                            <option value="FEWER">FEWER</option>
+                        </select>
+                        shares when the market is high.
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- Submit Button Card -->
+        <div class="bg-white rounded-2xl p-6 shadow-md border border-slate-200 no-print flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                <h4 class="font-bold text-slate-900">Ready to Submit?</h4>
+                <p class="text-xs text-slate-500">Your worksheet will be automatically graded and a detailed report will generate below.</p>
+            </div>
+            <button type="button" id="btnGrade" class="w-full sm:w-auto px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold rounded-xl shadow-md transition transform active:scale-95 flex items-center justify-center gap-2 text-sm">
+                <i class="fa-solid fa-check-double"></i> Submit & Grade Worksheet
+            </button>
+        </div>
+
+        <section id="resultsReportCard" class="hidden bg-white rounded-2xl p-6 sm:p-8 shadow-xl border-2 border-indigo-600 transition-all">
+            <!-- Overall Score Header -->
+            <div class="flex flex-col md:flex-row items-center justify-between border-b border-slate-200 pb-6 mb-6 gap-6">
+                <div class="flex items-center space-x-5">
+                    <div id="scoreBadge" class="w-24 h-24 rounded-2xl bg-indigo-100 text-indigo-700 flex flex-col items-center justify-center border-4 border-indigo-600 shrink-0 shadow-sm">
+                        <span id="scorePercent" class="text-3xl font-black leading-none">0%</span>
+                        <span id="scorePoints" class="text-[10px] font-bold uppercase tracking-wider mt-1.5 text-slate-600">0 / 12 pts</span>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span id="gradeStatusBadge" class="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-slate-200 text-slate-800">--</span>
+                        </div>
+                        <h3 class="text-2xl font-black text-slate-900">Autograded Performance Report</h3>
+                        <p id="studentInfoDisplay" class="text-xs sm:text-sm text-slate-600 mt-0.5">Student: -- | Date: --</p>
+                    </div>
+                </div>
+
+                <button type="button" onclick="window.print()" class="no-print px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold rounded-lg transition border border-slate-300 flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Print Full Report
+                </button>
+            </div>
+
+            <!-- Itemized Table Feedback Report -->
+            <div>
+                <h4 class="font-extrabold text-slate-900 text-base mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-indigo-600"></i>
+                    Detailed Item-by-Item Evaluation & Feedback
+                </h4>
+
+                <div class="overflow-x-auto rounded-xl border border-slate-200">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <thead>
+                            <tr class="bg-slate-100 border-b border-slate-200 text-slate-700 font-bold uppercase text-[11px] tracking-wider">
+                                <th class="p-3 w-12 text-center">#</th>
+                                <th class="p-3">Question / Item</th>
+                                <th class="p-3">Your Response</th>
+                                <th class="p-3">Correct Answer</th>
+                                <th class="p-3 text-center">Result</th>
+                                <th class="p-3">Educational Feedback</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportTableBody" class="divide-y divide-slate-200 bg-white">
+                            <!-- Injected dynamically by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Set default date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById("studentDate").value = today;
+
+            // Event listeners
+            document.getElementById("btnGrade").addEventListener("click", gradeWorksheet);
+            document.getElementById("btnReset").addEventListener("click", resetForm);
+        });
+
+        const ANSWER_KEY = {
+            q1_jan: { label: "Part II Q1: Jan Shares", correct: "4.00", val: 4.00, tol: 0.05, explanation: "In January, $200 ÷ $50/share = 4.00 shares bought." },
+            q1_mar: { label: "Part II Q1: Mar Shares", correct: "5.41", val: 5.41, tol: 0.05, explanation: "In March, $200 ÷ $37/share = 5.41 shares bought." },
+            q1_dropdown: { label: "Part II Q1: Prices Down Conclusion", correct: "MORE", explanation: "When prices drop, each fixed dollar investment automatically buys MORE shares on sale." },
+            
+            q2_apr: { label: "Part II Q2: Apr Shares", correct: "3.08", val: 3.08, tol: 0.05, explanation: "In April, $200 ÷ $65/share = 3.08 shares bought." },
+            q2_dropdown: { label: "Part II Q2: Prices Up Conclusion", correct: "FEWER", explanation: "When prices surge higher, each fixed dollar investment automatically buys FEWER shares." },
+            
+            q3_text: { 
+                label: "Part II Q3: Beat the Average Explanation", 
+                correct: "Buying more cheap shares ($37) and fewer expensive shares ($65) drags average cost ($46.06) below average market price ($48.25).", 
+                keywords: ["more", "cheap", "low", "bought", "fewer", "high", "price", "lower", "average", "weighted"],
+                explanation: "Because your $200 bought 5.41 shares when cheap ($37) and only 3.08 shares when high ($65), your purchases were weighted toward lower prices." 
+            },
+            
+            scenarioA_select: { label: "Part III: Scenario A Strategy Choice", correct: "DCA (Automated Dollar-Cost Averaging)", rawVal: "DCA", explanation: "Automated DCA protected capital better by reducing losses to -$71.27 vs -$156.00 for lump sum." },
+            scenarioA_text: { 
+                label: "Part III: Scenario A Explanation", 
+                correct: "Buying over time allowed accumulating lower-priced shares during the market drop, spreading out risk.", 
+                keywords: ["spread", "cheap", "drop", "lower", "loss", "more shares", "accumulate", "price", "time", "risk"],
+                explanation: "Spreading investments over time allows buying dips, lowering average cost per share compared to investing everything at a single peak." 
+            },
+            
+            scenarioB_text: { 
+                label: "Part III: Scenario B Market Timing Analysis", 
+                correct: "Fear causes investors to hesitate during dips, while panic/FOMO causes them to buy late at peaks, missing gains.", 
+                keywords: ["fear", "wait", "miss", "high", "fewer", "emotion", "panic", "fomo", "price", "time", "peak"],
+                explanation: "Timing the market usually fails because emotions lead investors to wait too long out of fear and buy in late at market highs." 
+            },
+            
+            summary1: { label: "Part IV Q1: Removal from Decision-Making", correct: "EMOTION", explanation: "Automated transfers eliminate hesitation, fear, and emotional interference from investing." },
+            summary2: { label: "Part IV Q2: Low Market Buying Rule", correct: "MORE", explanation: "Fixed recurring transfers automatically buy MORE shares when stock prices are discounted." },
+            summary3: { label: "Part IV Q3: High Market Buying Rule", correct: "FEWER", explanation: "Fixed recurring transfers automatically buy FEWER shares when stock prices are expensive." }
+        };
+
+        function gradeWorksheet() {
+            const nameInput = document.getElementById("studentName");
+            if (!nameInput.value.trim()) {
+                alert("Please enter your Student Name before submitting.");
+                nameInput.focus();
+                nameInput.classList.add("border-rose-500", "bg-rose-50");
+                return;
+            } else {
+                nameInput.classList.remove("border-rose-500", "bg-rose-50");
+            }
+
+            let totalPoints = 0;
+            const maxPoints = 12;
+            const reportRows = [];
+
+            // 1. Evaluate Number Items
+            const evalNum = (id) => {
+                const el = document.getElementById(id);
+                const rawVal = el.value.trim();
+                const numVal = parseFloat(rawVal);
+                const cfg = ANSWER_KEY[id];
+                let pts = 0;
+                let status = "INCORRECT";
+
+                if (!isNaN(numVal) && Math.abs(numVal - cfg.val) <= cfg.tol) {
+                    pts = 1;
+                    status = "CORRECT";
+                    el.className = "w-full px-3 py-2 border-2 border-emerald-500 bg-emerald-50 rounded-lg outline-none transition text-sm font-semibold";
+                } else {
+                    el.className = "w-full px-3 py-2 border-2 border-rose-500 bg-rose-50 rounded-lg outline-none transition text-sm";
+                }
+
+                totalPoints += pts;
+                reportRows.push({
+                    item: cfg.label,
+                    userAns: rawVal ? rawVal : "<em>[ Left Blank ]</em>",
+                    correctAns: cfg.correct,
+                    status: status,
+                    pts: pts,
+                    feedback: cfg.explanation
+                });
+            };
+
+            // 2. Evaluate Select Items
+            const evalSelect = (id) => {
+                const el = document.getElementById(id);
+                const rawVal = el.value;
+                const cfg = ANSWER_KEY[id];
+                const expected = cfg.rawVal || cfg.correct;
+                let pts = 0;
+                let status = "INCORRECT";
+
+                if (rawVal === expected) {
+                    pts = 1;
+                    status = "CORRECT";
+                    el.className = "px-3 py-1.5 border-2 border-emerald-500 bg-emerald-50 rounded-lg outline-none font-bold text-sm text-emerald-900";
+                } else {
+                    el.className = "px-3 py-1.5 border-2 border-rose-500 bg-rose-50 rounded-lg outline-none font-bold text-sm text-rose-900";
+                }
+
+                totalPoints += pts;
+                reportRows.push({
+                    item: cfg.label,
+                    userAns: rawVal ? el.options[el.selectedIndex].text : "<em>[ Unselected ]</em>",
+                    correctAns: cfg.correct,
+                    status: status,
+                    pts: pts,
+                    feedback: cfg.explanation
+                });
+            };
+
+            // 3. Evaluate Open Text
+            const evalText = (id) => {
+                const el = document.getElementById(id);
+                const rawVal = el.value.trim();
+                const textLower = rawVal.toLowerCase();
+                const cfg = ANSWER_KEY[id];
+                let pts = 0;
+                let status = "INCORRECT";
+
+                const wordCount = rawVal ? rawVal.split(/\s+/).length : 0;
+                const matchedKW = cfg.keywords.filter(kw => textLower.includes(kw));
+
+                if (wordCount >= 3 && matchedKW.length >= 2) {
+                    pts = 1;
+                    status = "CORRECT";
+                    el.className = "w-full px-3 py-2 border-2 border-emerald-500 bg-emerald-50 rounded-lg outline-none transition text-xs sm:text-sm";
+                } else if (wordCount >= 3) {
+                    pts = 0.5;
+                    status = "PARTIAL";
+                    el.className = "w-full px-3 py-2 border-2 border-amber-500 bg-amber-50 rounded-lg outline-none transition text-xs sm:text-sm";
+                } else {
+                    el.className = "w-full px-3 py-2 border-2 border-rose-500 bg-rose-50 rounded-lg outline-none transition text-xs sm:text-sm";
+                }
+
+                totalPoints += pts;
+                reportRows.push({
+                    item: cfg.label,
+                    userAns: rawVal ? rawVal : "<em>[ Left Blank ]</em>",
+                    correctAns: cfg.correct,
+                    status: status,
+                    pts: pts,
+                    feedback: cfg.explanation
+                });
+            };
+
+            // Execute Evaluations
+            evalNum("q1_jan");
+            evalNum("q1_mar");
+            evalSelect("q1_dropdown");
+            evalNum("q2_apr");
+            evalSelect("q2_dropdown");
+            evalText("q3_text");
+            evalSelect("scenarioA_select");
+            evalText("scenarioA_text");
+            evalText("scenarioB_text");
+            evalSelect("summary1");
+            evalSelect("summary2");
+            evalSelect("summary3");
+
+            // Calculate Overall Percentage
+            const percent = Math.round((totalPoints / maxPoints) * 100);
+
+            // Render Report Cards & Badge Status
+            document.getElementById("scorePercent").innerText = percent + "%";
+            document.getElementById("scorePoints").innerText = `${totalPoints} / ${maxPoints} pts`;
+            document.getElementById("studentInfoDisplay").innerText = `Student: ${nameInput.value} | Date: ${document.getElementById("studentDate").value}`;
+
+            const badge = document.getElementById("scoreBadge");
+            const statusBadge = document.getElementById("gradeStatusBadge");
+
+            if (percent >= 85) {
+                badge.className = "w-24 h-24 rounded-2xl bg-emerald-100 text-emerald-800 flex flex-col items-center justify-center border-4 border-emerald-500 shrink-0 shadow-sm";
+                statusBadge.className = "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-300";
+                statusBadge.innerText = "Mastery Achieved";
+            } else if (percent >= 70) {
+                badge.className = "w-24 h-24 rounded-2xl bg-amber-100 text-amber-800 flex flex-col items-center justify-center border-4 border-amber-500 shrink-0 shadow-sm";
+                statusBadge.className = "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-300";
+                statusBadge.innerText = "Good Effort";
+            } else {
+                badge.className = "w-24 h-24 rounded-2xl bg-rose-100 text-rose-800 flex flex-col items-center justify-center border-4 border-rose-500 shrink-0 shadow-sm";
+                statusBadge.className = "px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300";
+                statusBadge.innerText = "Needs Review";
+            }
+
+            // Populate Table Rows
+            const tbody = document.getElementById("reportTableBody");
+            tbody.innerHTML = "";
+
+            reportRows.forEach((r, idx) => {
+                let statusMarkup = "";
+                let bgRow = "";
+
+                if (r.status === "CORRECT") {
+                    statusMarkup = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300"><i class="fa-solid fa-check"></i> Correct</span>`;
+                    bgRow = "hover:bg-emerald-50/40";
+                } else if (r.status === "PARTIAL") {
+                    statusMarkup = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300"><i class="fa-solid fa-circle-half-stroke"></i> Partial</span>`;
+                    bgRow = "hover:bg-amber-50/40";
+                } else {
+                    statusMarkup = `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-100 text-rose-800 border border-rose-300"><i class="fa-solid fa-xmark"></i> Incorrect</span>`;
+                    bgRow = "hover:bg-rose-50/40";
+                }
+
+                const tr = document.createElement("tr");
+                tr.className = `transition ${bgRow}`;
+                tr.innerHTML = `
+                    <td class="p-3 text-center font-bold text-slate-500 border-b border-slate-200">${idx + 1}</td>
+                    <td class="p-3 font-semibold text-slate-900 border-b border-slate-200">${r.item}</td>
+                    <td class="p-3 text-slate-700 border-b border-slate-200 max-w-[180px] break-words">${r.userAns}</td>
+                    <td class="p-3 font-bold text-slate-900 border-b border-slate-200 max-w-[200px] break-words">${r.correctAns}</td>
+                    <td class="p-3 text-center border-b border-slate-200">${statusMarkup}</td>
+                    <td class="p-3 text-slate-600 border-b border-slate-200 leading-relaxed text-xs">${r.feedback}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Show Banner & Report Card, then scroll smoothly
+            document.getElementById("topBanner").classList.remove("hidden");
+            const reportCard = document.getElementById("resultsReportCard");
+            reportCard.classList.remove("hidden");
+            reportCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            if (confirm("Are you sure you want to reset all answers and clear the report?")) {
+                const inputs = document.querySelectorAll("input, select, textarea");
+                inputs.forEach(el => {
+                    if (el.id !== "studentDate") el.value = "";
+                    el.className = el.tagName === "SELECT" 
+                        ? "px-3 py-1.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none font-bold bg-white text-sm"
+                        : "w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 outline-none transition bg-white text-xs sm:text-sm";
+                });
+
+                document.getElementById("topBanner").classList.add("hidden");
+                document.getElementById("resultsReportCard").classList.add("hidden");
+            }
+        }
+    </script>
+</body>
+</html>
